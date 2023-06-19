@@ -3,6 +3,10 @@ const bodyparser = require('body-parser');
 require('dotenv').config()
 
 const app = express();
+const cors = require('cors');
+
+// * CORS
+app.use(cors()):
 
 // * Capturar body
 app.use(bodyparser.urlencoded({ extended: false }));
@@ -18,7 +22,7 @@ const testProtectedRoute = require('./apiServices/company/routes/test-protected-
 
 // * Route middlewares
 app.use('/api/company', authRoutes);
-app.use('/api/test-protected-route',validateToken ,testProtectedRoute);
+app.use('/api/test-protected-route', validateToken, testProtectedRoute);
 
 // * Iniciar server
 const PORT = process.env.PORT || 3001;
