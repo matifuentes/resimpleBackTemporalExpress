@@ -6,7 +6,7 @@ const app = express();
 const cors = require('cors');
 
 // * CORS
-app.use(cors()):
+app.use(cors());
 
 // * Capturar body
 app.use(bodyparser.urlencoded({ extended: false }));
