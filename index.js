@@ -1,9 +1,11 @@
-const express = require('express');
-const bodyparser = require('body-parser');
-require('dotenv').config()
+import express from 'express'
+import bodyparser from 'body-parser'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const app = express();
-const cors = require('cors');
+
+import cors from 'cors'
 
 // * CORS
 app.use(cors());
@@ -13,12 +15,12 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 // * Conexión a la BD
-const dbConnect = require('./db');
+import dbConnect from './db.js'
 
 // * Routes
-const authRoutes = require('./apiServices/company/routes/auth');
-const validateToken = require('./middleware/validate-token');
-const testProtectedRoute = require('./apiServices/company/routes/test-protected-route');
+import authRoutes from './apiServices/company/routes/auth.js'
+import validateToken from './middleware/validate-token.js'
+import testProtectedRoute from './apiServices/company/routes/test-protected-route.js'
 
 // * Route middlewares
 app.use('/api/company', authRoutes);

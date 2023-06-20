@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const companySchema = mongoose.Schema({
+const temporalCompanySchema = mongoose.Schema({
   rutCompany: {
     type: String,
     required: true,
@@ -40,10 +40,20 @@ const companySchema = mongoose.Schema({
     min: 6,
     max: 255,
   },
+  validationCode: {
+    type: String,
+    required: true,
+    min: 6,
+    max: 6,
+  },
+  trying: {
+    type: Number,
+    default: 3,
+  },
   date: {
     type: Date,
     default: Date.now
   }
 });
 
-export default mongoose.model('Company', companySchema)
+export default mongoose.model('Temporal-Company', temporalCompanySchema)

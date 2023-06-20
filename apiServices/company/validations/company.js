@@ -1,8 +1,9 @@
-const Joi = require('@hapi/joi');
+import Joi from '@hapi/joi'
 
 const validateRegister = Joi.object({
   rutCompany: Joi.string().max(12).required(),
   nameCompany: Joi.string().min(6).max(255).required(),
+  sizeCompany: Joi.string().valid('Micro', 'Pequeña', 'Mediana', 'Grande').required(),
   rutManager: Joi.string().max(12).required(),
   nameManager: Joi.string().min(6).max(255).required(),
   emailManager: Joi.string().min(6).max(255).required().email(),
@@ -14,4 +15,4 @@ const validateLogin = Joi.object({
   password: Joi.string().min(6).max(1024).required()
 });
 
-module.exports = {validateRegister, validateLogin};
+export { validateRegister, validateLogin }

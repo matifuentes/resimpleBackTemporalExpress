@@ -1,9 +1,9 @@
-const Company = require('../models/Company');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+import Company from '../models/TemporalCompany.js'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 // * Validations Schemas
-const { validateRegister, validateLogin } = require('../validations/company');
+import { validateRegister, validateLogin } from '../validations/company.js'
 
 const controllerRegister = async (req, res) => {
   // * Validar datos
@@ -15,7 +15,7 @@ const controllerRegister = async (req, res) => {
     })
   }
 
-  const existEmail = await Company.findOne({emailManager: req.body.emailManager.toLowerCase()});
+  const existEmail = await Company.findOne({ emailManager: req.body.emailManager.toLowerCase() });
   if (existEmail) {
     return res.status(400).json({
       error: true,
@@ -28,7 +28,7 @@ const controllerRegister = async (req, res) => {
   const password = await bcrypt.hash(req.body.password, salt)
 
   // * Acá se capturan los datos y se almacenan en "company"
-  const company = new Company ({
+  const company = new Company({
     rutCompany: req.body.rutCompany,
     nameCompany: req.body.nameCompany,
     rutManager: req.body.rutManager,
@@ -61,7 +61,7 @@ const controllerLogin = async (req, res) => {
   }
 
   // * Validar que la company exista
-  const company = await Company.findOne({emailManager: req.body.emailManager.toLowerCase()});
+  const company = await Company.findOne({ emailManager: req.body.emailManager.toLowerCase() });
   if (!company) {
     return res.status(400).json({
       error: true,
@@ -91,10 +91,10 @@ const controllerLogin = async (req, res) => {
   // * Envío de JWT
   res.header('auth-token', token).json({
     error: null,
-    data: {token}
+    data: { token }
   })
 }
 
-module.exports = {
+export {
   controllerRegister, controllerLogin
 };
