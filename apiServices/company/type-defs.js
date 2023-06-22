@@ -13,28 +13,31 @@ const typeDefs = gql`
     trying: Int
   }
 
+  type ReturnMatch {
+    match: Boolean, 
+    trying: Int 
+  }
+
   type Company {
     _id: ID!
     rutCompany: String
     nameCompany: String
     sizeCompany: String
+
+  }
+
+  type User {
     rutManager: String
     nameManager: String
     emailManager: String
-    validationCode: String
-    trying: Int
     password: String
-  }
-
-  type CompanySalida {
-    emailManager: String
   }
 
   type Query {
     companyCount: Int!
     allCompanies: [Company]!
     findCompany(nameCompany: String!): [Company]
-    validateCode(emailManager: String!, validationCode: String!): Company
+    validateCode(emailManager: String!, validationCode: String!): ReturnMatch
   }
 
   type Mutation {

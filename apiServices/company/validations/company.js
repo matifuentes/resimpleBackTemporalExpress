@@ -5,7 +5,10 @@ const validateRegister = Joi.object({
   nameCompany: Joi.string().min(6).max(255).required(),
   sizeCompany: Joi.string().valid('Micro', 'Pequeña', 'Mediana', 'Grande').required(),
   rutManager: Joi.string().max(12).required(),
-  nameManager: Joi.string().min(6).max(255).required(),
+  nameManager: Joi.string().min(6).max(255).required().messages({
+    'string.empty': `"nameManager" No pueded ser vacío`,
+    'string.min': `"nameManager" El mínimo de caracteres es {#limit}`
+  }),
   emailManager: Joi.string().min(6).max(255).required().email(),
   password: Joi.string().min(6).max(1024).required()
 });

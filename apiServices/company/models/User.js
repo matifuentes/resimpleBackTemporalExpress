@@ -1,21 +1,28 @@
 import mongoose from 'mongoose'
 
-const companySchema = mongoose.Schema({
-  rutCompany: {
+const userSchema = mongoose.Schema({
+  rutManager: {
     type: String,
     required: true,
     max: 12,
   },
-  nameCompany: {
+  nameManager: {
     type: String,
     required: true,
     min: 6,
     max: 255,
   },
-  sizeCompany: {
+  emailManager: {
     type: String,
     required: true,
-    enum: ['Micro', 'Pequeña', 'Mediana', 'Grande'],
+    min: 6,
+    max: 255,
+  },
+  password: {
+    type: String,
+    required: true,
+    min: 6,
+    max: 255,
   },
   date: {
     type: Date,
@@ -23,4 +30,4 @@ const companySchema = mongoose.Schema({
   }
 });
 
-export default mongoose.model('Company', companySchema)
+export default mongoose.model('User', userSchema)
