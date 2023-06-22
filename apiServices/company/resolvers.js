@@ -22,7 +22,7 @@ const resolvers = {
       const { emailManager, validationCode } = args
 
       try {
-        const dataTemporalCompany = await TemporalCompany.findOne({ emailManager })
+        const dataTemporalCompany = await TemporalCompany.findOne({ emailManager: emailManager.toLowerCase() })
         if (!dataTemporalCompany) {
           throw new Error('Email no encontrado')
         }
@@ -50,9 +50,9 @@ const resolvers = {
 
           const { rutCompany, nameCompany, sizeCompany, rutManager, nameManager, emailManager, password } = dataTemporalCompany
           const company = new Company({ rutCompany, nameCompany, sizeCompany })
-          const user = new User({ rutManager, nameManager, emailManager, password })
+          const user = new User({ rutManager, nameManager, emailManager: emailManager.toLowerCase(), password })
 
-          const existEmailUser = await User.findOne({ emailManager })
+          const existEmailUser = await User.findOne({ emailManager: emailManager.toLowerCase() })
           if (existEmailUser) {
             throw new Error('El email ya está registrado')
           }
@@ -149,6 +149,9 @@ const resolvers = {
 
       // * Generar random de 6 dígitos
       temporalCompany.validationCode = gen6digitsNumber();
+
+      // * Guardar el email en minúscula
+      temporalCompany.emailManager = temporalCompany.emailManager.toLowerCase();
 
       return await temporalCompany.save()
     }

@@ -9,7 +9,10 @@ import resolvers from './resolvers.js';
 // * Crear servidor
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context: ({ req }) => {
+    return req
+  },
 });
 
 // * Inicializar servidor
