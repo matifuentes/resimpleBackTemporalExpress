@@ -1,11 +1,11 @@
 import TemporalCompany from './models/TemporalCompany.js'
 import Company from './models/Company.js'
 import User from './models/User.js'
+import UserCompany from './models/User-Company.js'
 import { } from '../../db.js'
 import bcrypt from 'bcrypt'
 import { validateRegister, validateLogin } from './validations/company.js'
 import jwt from 'jsonwebtoken'
-//import { UserInputError } from 'apollo-server'
 import gen6digitsNumber from './utils.js'
 
 const resolvers = {
@@ -24,7 +24,7 @@ const resolvers = {
       try {
         const dataTemporalCompany = await TemporalCompany.findOne({ emailManager })
         if (!dataTemporalCompany) {
-          throw new Error('Email no encontrado en Temporal Company')
+          throw new Error('Email no encontrado')
         }
 
         if (dataTemporalCompany.trying == 0) {
@@ -35,7 +35,8 @@ const resolvers = {
           const tries = dataTemporalCompany.trying > 0 ? dataTemporalCompany.trying - 1 : dataTemporalCompany.trying
           const filter = { _id: dataTemporalCompany._id }
           const update = { trying: tries }
-          const updatedTemporalCompany = await TemporalCompany.findOneAndUpdate(filter, update, {
+
+          await TemporalCompany.findOneAndUpdate(filter, update, {
             returnOriginal: false
           })
 
@@ -43,8 +44,6 @@ const resolvers = {
             match: false,
             trying: tries
           };
-
-          //return updatedTemporalCompany;
         } else {
 
           // * La data coincide, realizo una inserción en la tabla Company
@@ -55,9 +54,10 @@ const resolvers = {
 
           const existEmailUser = await User.findOne({ emailManager })
           if (existEmailUser) {
-            throw new Error('El email ya existe en User')
+            throw new Error('El email ya está registrado')
           }
 
+          // * Creaación de User y Company y User-Company
           const newUser = await user.save()
           const newCompany = await company.save()
 
@@ -66,18 +66,57 @@ const resolvers = {
             const deleteFilter = { _id: dataTemporalCompany._id }
             await TemporalCompany.deleteOne(deleteFilter)
 
+            // * Creación en User-Company
+            const userCompany = new UserCompany({ idUser: newUser._id, idCompany: newCompany._id })
+
+            await userCompany.save()
+
             // * Retornar nuevo registro en User
             return {
               match: true,
               trying: 0
-            };
-            //return newUser
+            }
           }
         }
 
       } catch (error) {
-        console.log(`findOne error--> ${error}`)
-        return error;
+        return error
+      }
+    },
+    login: async (root, args) => {
+      const { emailManager, password } = args
+
+      try {
+        // * Validar campos
+        const { error } = validateLogin.validate(args, { abortEarly: false })
+        if (error) {
+          throw new Error(error.details[0].message)
+        }
+
+        // * Validar que el correo exista en User
+        const user = await User.findOne({ emailManager: emailManager.toLowerCase() })
+        if (!user) {
+          throw new Error('Credenciales inválidas')
+        }
+
+        // * Validar password
+        const validatePassword = await bcrypt.compare(password, user.password);
+        if (!validatePassword) {
+          throw new Error('Credenciales inválidas')
+        }
+
+        // * Creación del JWT
+        const token = jwt.sign({
+          id: user._id,
+          nameManager: user.nameManager
+        }, process.env.TOKEN_SECRET);
+
+        return {
+          token: token
+        }
+
+      } catch (error) {
+        return error
       }
     }
   },
@@ -95,13 +134,13 @@ const resolvers = {
       // * Validar si el correo ya existe en Temporal Company
       const existEmailTemporalCompany = await TemporalCompany.findOne({ emailManager: temporalCompany.emailManager.toLowerCase() });
       if (existEmailTemporalCompany) {
-        throw new Error('Email ya registrado en Temporal Company')
+        throw new Error('Email ya registrado')
       }
 
       // * Validar si el correo ya existe en Company
       const existEmailCompany = await Company.findOne({ emailManager: temporalCompany.emailManager.toLowerCase() })
       if (existEmailCompany) {
-        throw new Error('Email ya registrado en Company')
+        throw new Error('Email ya registrado')
       }
 
       // * Hash de password
