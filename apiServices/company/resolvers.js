@@ -2,6 +2,7 @@ import TemporalCompany from './models/TemporalCompany.js'
 import Company from './models/Company.js'
 import User from './models/User.js'
 import UserCompany from './models/User-Company.js'
+import BaseLine from './models/Base-Line.js'
 import { } from '../../db.js'
 import bcrypt from 'bcrypt'
 import { validateRegister, validateLogin } from './validations/company.js'
@@ -17,6 +18,19 @@ const resolvers = {
     findCompany: async (root, args) => {
       const { nameCompany } = args
       return TemporalCompany.find({ nameCompany })
+    },
+    companiesByUser: async (root, args) => {
+      const { idUser } = args
+
+      const arrCompaniesByUser = await UserCompany.find({ idUser });
+
+      const arrIdsCompanies = arrCompaniesByUser.map(company =>
+        company.idCompany
+      );
+
+      const arrCompanies = await Company.find({ _id: { $in: arrIdsCompanies } });
+
+      return arrCompanies
     },
     validateCode: async (root, args) => {
       const { emailManager, validationCode } = args
@@ -108,7 +122,9 @@ const resolvers = {
         // * Creación del JWT
         const token = jwt.sign({
           id: user._id,
-          nameManager: user.nameManager
+          rutManager: user.rutManager,
+          nameManager: user.nameManager,
+          emailManager: user.emailManager
         }, process.env.TOKEN_SECRET);
 
         return {
@@ -122,6 +138,11 @@ const resolvers = {
   },
 
   Mutation: {
+    addBaseLine: async (root, args) => {
+      const baseLine = new BaseLine({ ...args })
+
+      return await baseLine.save()
+    },
     addTemporalCompany: async (root, args) => {
       const temporalCompany = new TemporalCompany({ ...args })
 
