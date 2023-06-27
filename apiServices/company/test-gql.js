@@ -6,13 +6,22 @@ import typeDefs from './type-defs.js';
 // * resolvers
 import resolvers from './resolvers.js';
 
+// * Obtener usuario por JWT
+import getUser from '../../middleware/validate-token.js'
+
 // * Crear servidor
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
-    return req
-  },
+    const token = req.get('Authorization') || '';
+    const splitedToken = token.split(" ");
+    if (splitedToken[0].toLowerCase() != 'bearer') {
+      return null;
+    }
+
+    return { user: getUser(splitedToken[1]) }
+  }
 });
 
 // * Inicializar servidor

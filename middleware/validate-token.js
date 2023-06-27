@@ -1,27 +1,16 @@
 import jwt from 'jsonwebtoken'
 
-const verifyToken = (req, res, next) => {
-  const token = req.header('auth-token');
-
-  // * Validar que exista el token
-  if (!token) {
-    return res.status(401).json({
-      error: true,
-      message: 'Acceso denegado, no se encontró el token'
-    })
-  }
-
-  // * Validar que el token corresponda
+const getUser = token => {
   try {
-    const verifiedToken = jwt.verify(token, process.env.TOKEN_SECRET);
-    req.user = verifiedToken;
-    next();
+    if (token) {
+      const verifiedToken = jwt.verify(token, process.env.TOKEN_SECRET)
+      return verifiedToken
+    }
+
+    return null
   } catch (error) {
-    res.status(400).json({
-      error: true,
-      message: 'El token no es válido'
-    })
+    return null
   }
 }
 
-export default verifyToken
+export default getUser

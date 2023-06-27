@@ -11,9 +11,23 @@ import gen6digitsNumber from './utils.js'
 
 const resolvers = {
   Query: {
-    companyCount: () => TemporalCompany.collection.countDocuments(),
-    allCompanies: async (root, args) => {
-      return TemporalCompany.find({})
+    companyCount: async (root, args, { user }) => {
+      try {
+        if (!user) throw new Error('Usuario no autenticado')
+
+        return Company.collection.countDocuments()
+      } catch (error) {
+        return error
+      }
+    },
+    allCompanies: async (root, args, { user }) => {
+      try {
+        if (!user) throw new Error('Usuario no autenticado')
+
+        return Company.find({})
+      } catch (error) {
+        return error
+      }
     },
     findCompany: async (root, args) => {
       const { nameCompany } = args
