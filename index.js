@@ -3,6 +3,8 @@ import bodyparser from 'body-parser'
 import dotenv from 'dotenv'
 dotenv.config()
 
+import validateTokenExpress from './middleware/validate-token-express.js'
+
 const app = express();
 
 import cors from 'cors'
@@ -14,17 +16,15 @@ app.use(cors());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
-// * Conexión a la BD
-import dbConnect from './db.js'
-
 // * Routes
-import authRoutes from './apiServices/company/routes/auth.js'
-import validateToken from './middleware/validate-token.js'
-import testProtectedRoute from './apiServices/company/routes/test-protected-route.js'
+import sendMail from './apiServices/company/routes/send-mail.js'
 
 // * Route middlewares
-app.use('/api/company', authRoutes);
-app.use('/api/test-protected-route', validateToken, testProtectedRoute);
+app.use('/api/email', validateTokenExpress, sendMail)
+
+app.get('/', (req, res) => {
+    res.send('¡Hola Express!')
+})
 
 // * Iniciar server
 const PORT = process.env.PORT || 3001;
