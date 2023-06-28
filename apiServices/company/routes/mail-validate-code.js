@@ -4,7 +4,7 @@ import mailer from '../../../services/mailer/mailer.js'
 
 const router = express.Router()
 
-router.post('/send-mail', async (req, res) => {
+router.post('/validate-code', async (req, res) => {
   const { mail, subject, name, verificationCode } = req.body
 
   // * Agregar las options para el envío
