@@ -7,7 +7,19 @@ const router = express.Router()
 router.post('/send-mail', async (req, res) => {
   const { mail, subject, name, verificationCode } = req.body
 
-  const result = await mailer(mail, subject, name, verificationCode)
+  // * Agregar las options para el envío
+  const mailOptions = {
+    from: `ReSimple <${process.env.EMAIL_SENDER}>`,
+    to: mail,
+    subject,
+    template: 'validate-code',
+    context: {
+      name,
+      verificationCode
+    }
+  }
+
+  const result = await mailer(mailOptions)
 
   if (!result?.messageId) {
     return res.status(400).json({

@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
 import hbs from 'nodemailer-express-handlebars'
 
-const mailer = async (mail, subject, name, verificationCode) => {
+const mailer = async (mailOptions) => {
   // * Crear el transporte
   const transporter = nodemailer.createTransport({
     host: "smtp.office365.com",
@@ -25,18 +25,6 @@ const mailer = async (mail, subject, name, verificationCode) => {
     extName: '.hbs'
   }))
 
-  // * Agregar las options para el envío
-  const mailOptions = {
-    from: `ReSimple <${process.env.EMAIL_SENDER}>`,
-    to: mail,
-    subject,
-    template: 'validate-code',
-    context: {
-      name,
-      verificationCode
-    }
-  }
-
   // * Enviar el mail
   try {
     const result = await transporter.sendMail(mailOptions)
@@ -44,8 +32,6 @@ const mailer = async (mail, subject, name, verificationCode) => {
   } catch (error) {
     return error
   }
-
-
 }
 
 export default mailer
