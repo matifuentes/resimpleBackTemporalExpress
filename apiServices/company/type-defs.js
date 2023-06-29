@@ -44,27 +44,59 @@ const typeDefs = gql`
   }
 
   type Domiciliary {
-    code: String!
+    codeSubCategory: String!
+    nameSubCategory: String!
+    codeClassificationMaterial: String!
+    nameClassificationMaterial: String!
+    codeMaterial: String!
+    nameMaterial: String!
+    fullCode: String!
     tonDangerous: Float!
     tonNotDangerous: Float!
+    priceDangerous: Float!
+    priceNotDangerous: Float!
   }
 
   type NoDomiciliary {
-    code: String!
+    codeSubCategory: String!
+    nameSubCategory: String!
+    codeClassificationMaterial: String!
+    nameClassificationMaterial: String!
+    codeMaterial: String!
+    nameMaterial: String!
+    fullCode: String!
     tonDangerous: Float!
     tonNotDangerous: Float!
+    priceDangerous: Float!
+    priceNotDangerous: Float!
   }
 
   input DomiciliaryInput {
-    code: String!
+    codeSubCategory: String!
+    nameSubCategory: String!
+    codeClassificationMaterial: String!
+    nameClassificationMaterial: String!
+    codeMaterial: String!
+    nameMaterial: String!
+    fullCode: String!
     tonDangerous: Float!
     tonNotDangerous: Float!
+    priceDangerous: Float!
+    priceNotDangerous: Float!
   }
 
   input NoDomiciliaryInput {
-    code: String!
+    codeSubCategory: String!
+    nameSubCategory: String!
+    codeClassificationMaterial: String!
+    nameClassificationMaterial: String!
+    codeMaterial: String!
+    nameMaterial: String!
+    fullCode: String!
     tonDangerous: Float!
     tonNotDangerous: Float!
+    priceDangerous: Float!
+    priceNotDangerous: Float!
   }
 
   type BaseLine {

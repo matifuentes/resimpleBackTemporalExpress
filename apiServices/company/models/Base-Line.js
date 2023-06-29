@@ -1,7 +1,37 @@
 import mongoose from 'mongoose'
 
 const Domiciliary = mongoose.Schema({
-  code: {
+  codeSubCategory: {
+    type: String,
+    required: true,
+    max: 32,
+  },
+  nameSubCategory: {
+    type: String,
+    required: true,
+    max: 256,
+  },
+  codeClassificationMaterial: {
+    type: String,
+    required: true,
+    max: 32,
+  },
+  nameClassificationMaterial: {
+    type: String,
+    required: true,
+    max: 256,
+  },
+  codeMaterial: {
+    type: String,
+    required: true,
+    max: 32,
+  },
+  nameMaterial: {
+    type: String,
+    required: true,
+    max: 1024,
+  },
+  fullCode: {
     type: String,
     required: true,
     max: 32,
@@ -11,13 +41,51 @@ const Domiciliary = mongoose.Schema({
     required: true,
   },
   tonNotDangerous: {
+    type: Number,
+    required: true,
+  },
+  priceDangerous: {
+    type: Number,
+    required: true,
+  },
+  priceNotDangerous: {
     type: Number,
     required: true,
   }
 });
 
 const NoDomiciliary = mongoose.Schema({
-  code: {
+  codeSubCategory: {
+    type: String,
+    required: true,
+    max: 32,
+  },
+  nameSubCategory: {
+    type: String,
+    required: true,
+    max: 256,
+  },
+  codeClassificationMaterial: {
+    type: String,
+    required: true,
+    max: 32,
+  },
+  nameClassificationMaterial: {
+    type: String,
+    required: true,
+    max: 256,
+  },
+  codeMaterial: {
+    type: String,
+    required: true,
+    max: 32,
+  },
+  nameMaterial: {
+    type: String,
+    required: true,
+    max: 1024,
+  },
+  fullCode: {
     type: String,
     required: true,
     max: 32,
@@ -27,6 +95,14 @@ const NoDomiciliary = mongoose.Schema({
     required: true,
   },
   tonNotDangerous: {
+    type: Number,
+    required: true,
+  },
+  priceDangerous: {
+    type: Number,
+    required: true,
+  },
+  priceNotDangerous: {
     type: Number,
     required: true,
   }
