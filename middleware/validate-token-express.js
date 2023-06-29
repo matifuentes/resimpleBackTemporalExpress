@@ -12,8 +12,6 @@ const verifyToken = (req, res, next) => {
 
   const token = splitedToken[1]
 
-  console.log("TOKEN", token)
-
   // * Validar que exista el token
   if (!token) {
     return res.status(401).json({

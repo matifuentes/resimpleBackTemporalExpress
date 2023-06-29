@@ -1,7 +1,6 @@
 import express from 'express'
 import mailer from '../../../services/mailer/mailer.js'
 
-
 const router = express.Router()
 
 router.post('/validate-code', async (req, res) => {
@@ -19,8 +18,10 @@ router.post('/validate-code', async (req, res) => {
     }
   }
 
+  // * Envío las options al mailer
   const result = await mailer(mailOptions)
 
+  // * Retorno dependiendo si el envío se logra o no
   if (!result?.messageId) {
     return res.status(400).json({
       ok: false,
@@ -38,8 +39,6 @@ router.post('/validate-code', async (req, res) => {
       message: 'Email enviado correctamente'
     }
   })
-
-
 });
 
 export default router

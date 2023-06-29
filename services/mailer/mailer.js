@@ -9,7 +9,7 @@ const mailer = async (mailOptions) => {
     secure: false,
     auth: {
       user: process.env.EMAIL_SENDER,
-      pass: 'Resimple#23',
+      pass: process.env.EMAIL_PASSWORD,
     },
   });
 

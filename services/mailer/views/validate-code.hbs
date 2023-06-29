@@ -2,10 +2,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>ReSimple - Código de veritifación</title>
+
+    <style>
+      .email-content { max-width: 600px; margin: 0 auto; font-family: Arial,
+      sans-serif; } .email-header { background-color: #404145; padding: 20px;
+      text-align: center; } .email-Titulo { background-color: #404145; padding:
+      8px; color: #f9f9f9; text-align: center; } .email-body { background-color:
+      #404145; padding: 12px; color: #f9f9f9; } .email-body1 { background-color:
+      #404145; font-size: 10px; text-align: center; color: #f9f9f9; }
+      .verification-code { background-color: #404145; font-size: 28px; color:
+      #80dc7d; font-weight: bold; text-align: center; } .email-footer {
+      background-color: #f9f9f9; padding: 12px; font-size: 12px; color:
+      #4545458f; text-align: center; font-family: Arial, sans-serif; }
+    </style>
   </head>
   <body>
-    <h1>Hola {{name}}!</h1>
-    <p>Tu código de verificación es: <strong>{{verificationCode}}</strong></p>
+    <div class="email-content">
+      <div class="email-header">
+        <table>
+          <td>
+            <img
+              src="https://resimplegransic-my.sharepoint.com/:i:/r/personal/cvera_resimple_cl/Documents/Publico/Logo%20ReSimple%202.png?csf=1&web=1&e=TlnPkR"
+              alt="LogoReSimple"
+              style="max-width: 100px; height: auto;"
+            />
+          </td>
+          <td>
+            <h1 class="email-Titulo">Código de Verificación</h1>
+          </td>
+        </table>
+      </div>
+      <div class="email-body">
+        Estimado
+        {{name}},
+        <p>Gracias por iniciar el proceso de creación de cuenta en nuestro
+          Portal Empresas
+          <a href="https://www.resimple.cl/" target="_blank"><span
+              style="color:#80dc7d"
+            >ReSimple</span></a>. Queremos asegurarnos de que es realmente
+          usted.</p>
+        <p>Por favor, ingrese el siguiente código en nuestra página de
+          verificación.</p>
+      </div>
+      <div class="verification-code">
+        {{verificationCode}}</div>
+      <div class="email-body1">
+        (Este código es válido durante 2 minutos)
+      </div>
+      <div class="email-body">
+        <p>Si no ha solicitado este correo electrónico, por favor ignore este
+          mensaje.</p>
+        <p>Saludos,</p>
+        <img
+          src="https://www.resimple.cl/wp-content/uploads/2023/06/fotoEquipo1.jpg"
+          alt="EquipoReSimple"
+          style="max-width: 300px; height: auto"
+          text-align="center"
+        />
+      </div>
+      <div class="email-footer">
+        Este mail es generado de manera automática, no lo responda. Si tiene
+        dudas o un problema con su registro, escríbanos al correo
+        <a href="mailto:info@resimple.cl"><span
+            style="color:#80dc7d"
+          >info@resimple.cl</span></a>
+      </div>
+    </div>
   </body>
 </html>
